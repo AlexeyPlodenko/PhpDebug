@@ -1,5 +1,6 @@
-<?php  /*!ap delete file */
-// fix to be able to dump() anytime anywhere, even after everything is rendered
+<?php
+
+// fix to be able to dump() anytime and anywhere, even after everything has rendered
 ob_start();
 
 // replaces current host env. with this, comment out to disable
@@ -8,18 +9,7 @@ ob_start();
 // replaces current path and query
 //$_SERVER['REQUEST_URI'] = '/en/article?id=123';
 
-// configures PHP
-//ini_set("display_startup_errors", "1");
-//ini_set("display_errors", "1");
-//ini_set('html_errors', 0);
-//error_reporting(E_ALL ^ E_NOTICE);
-//ini_set('memory_limit', '1G');
-
-//$cli = (php_sapi_name() === 'cli');
-//$time_limit = ($cli ? 360 : 30);
-//set_time_limit($time_limit);
-
-// put anything into this global var. to output after everything will be finished
+// put anything into this super global var. to output after execution will finish
 $GLOBALS['dumpAll'] = array();
 
 if (!function_exists('http_build_url'))
@@ -43,7 +33,7 @@ if (!function_exists('http_build_url'))
     // @param   mixed           Same as the first argument
     // @param   int             A bitmask of binary or'ed HTTP_URL constants (Optional)HTTP_URL_REPLACE is the default
     // @param   array           If set, it will be filled with the parts of the composed url like parse_url() would return
-    function http_build_url($url, $parts=array(), $flags=HTTP_URL_REPLACE, &$new_url=false)
+    function http_build_url($url, $parts = array(), $flags = HTTP_URL_REPLACE, &$new_url = false)
     {
         $keys = array('user','pass','port','path','query','fragment');
 
@@ -68,18 +58,21 @@ if (!function_exists('http_build_url'))
         $parse_url = parse_url($url);
 
         // Scheme and Host are always replaced
-        if (isset($parts['scheme']))
+        if (isset($parts['scheme'])) {
             $parse_url['scheme'] = $parts['scheme'];
-        if (isset($parts['host']))
+		}
+        if (isset($parts['host'])) {
             $parse_url['host'] = $parts['host'];
+		}
 
         // (If applicable) Replace the original URL with it's new parts
         if ($flags & HTTP_URL_REPLACE)
         {
             foreach ($keys as $key)
             {
-                if (isset($parts[$key]))
+                if (isset($parts[$key])) {
                     $parse_url[$key] = $parts[$key];
+				}
             }
         }
         else
@@ -87,19 +80,21 @@ if (!function_exists('http_build_url'))
             // Join the original URL path with the new path
             if (isset($parts['path']) && ($flags & HTTP_URL_JOIN_PATH))
             {
-                if (isset($parse_url['path']))
+                if (isset($parse_url['path'])) {
                     $parse_url['path'] = rtrim(str_replace(basename($parse_url['path']), '', $parse_url['path']), '/') . '/' . ltrim($parts['path'], '/');
-                else
+				} else {
                     $parse_url['path'] = $parts['path'];
+				}
             }
 
             // Join the original query string with the new query string
             if (isset($parts['query']) && ($flags & HTTP_URL_JOIN_QUERY))
             {
-                if (isset($parse_url['query']))
+                if (isset($parse_url['query'])) {
                     $parse_url['query'] .= '&' . $parts['query'];
-                else
+				} else {
                     $parse_url['query'] = $parts['query'];
+				}
             }
         }
 
@@ -107,21 +102,22 @@ if (!function_exists('http_build_url'))
         // Note: Scheme and Host are never stripped
         foreach ($keys as $key)
         {
-            if ($flags & (int)constant('HTTP_URL_STRIP_' . strtoupper($key)))
+            if ($flags & (int)constant('HTTP_URL_STRIP_' . strtoupper($key))) {
                 unset($parse_url[$key]);
+			}
         }
 
 
         $new_url = $parse_url;
 
         return
-             ((isset($parse_url['scheme'])) ? $parse_url['scheme'] . '://' : '')
-            .((isset($parse_url['user'])) ? $parse_url['user'] . ((isset($parse_url['pass'])) ? ':' . $parse_url['pass'] : '') .'@' : '')
-            .((isset($parse_url['host'])) ? $parse_url['host'] : '')
-            .((isset($parse_url['port'])) ? ':' . $parse_url['port'] : '')
-            .((isset($parse_url['path'])) ? $parse_url['path'] : '')
-            .((isset($parse_url['query'])) ? '?' . $parse_url['query'] : '')
-            .((isset($parse_url['fragment'])) ? '#' . $parse_url['fragment'] : '')
+             ((isset($parse_url['scheme'])) ? $parse_url['scheme'] . '://' : null)
+            . ((isset($parse_url['user'])) ? $parse_url['user'] . ((isset($parse_url['pass'])) ? ':' . $parse_url['pass'] : '') .'@' : null)
+            . ((isset($parse_url['host'])) ? $parse_url['host'] : null)
+            . ((isset($parse_url['port'])) ? ':' . $parse_url['port'] : null)
+            . ((isset($parse_url['path'])) ? $parse_url['path'] : null)
+            . ((isset($parse_url['query'])) ? '?' . $parse_url['query'] : null)
+            . ((isset($parse_url['fragment'])) ? '#' . $parse_url['fragment'] : null)
         ;
     }
 }
@@ -146,6 +142,7 @@ function dumpBacktrace(array $backtrace = null) {
 
     dumpClearOutput();
     dumpPrintBacktraceSimple($backtrace);
+
     exit;
 }
 
@@ -156,9 +153,6 @@ function dumpClearOutput() {
 }
 
 function dumpAsIs($var = null) {
-    set_time_limit(360);
-    ini_set('memory_limit', '2G');
-
     dumpClearOutput();
 
     echo $var;
@@ -173,6 +167,7 @@ function dump($var = null) {
 	$cli = (php_sapi_name() === 'cli');
 
     dumpClearOutput();
+
     ob_start();
     if (!$cli) {
         if (!headers_sent()) {
@@ -204,9 +199,7 @@ function dump($var = null) {
 
     } elseif (is_object($var) && $var instanceof Exception) {
         /* @var $var Exception */
-//        $objectBacktrace = (array)$var->getTrace();
         $objectBacktrace = [];
-//        $publicProps = get_object_vars($var);
         $code = $var->getCode();
         $file = $var->getFile();
         $line = $var->getLine();
@@ -216,7 +209,7 @@ function dump($var = null) {
         echo ($cli ? "\n\n" : '<br><br>');
 
     } else {
-        ini_set('memory_limit', '1G');
+        ini_set('memory_limit', '4G');
 		$res = print_r($var, true);
         if (strlen($res) > 99999) {
             $res = substr($res, 0, 99999);
@@ -242,14 +235,13 @@ function dump($var = null) {
         // how many rows should be in result set before the user interaction is needed
         $rowsAmountToAutoOutput = 20;
         $line_by_line = ($outputSize > $rowsAmountToAutoOutput);
-$line_by_line = false;
 
         if ($line_by_line) {
             echo "\n";
             echo "PRESS [ENTER] TO OUTPUT NEXT LINE\n";
             echo "PRESS [a], [ENTER] TO OUTPUT EVERYTHING\n";
             echo "PRESS TWICE [CTRL]+[C] TO STOP\n";
-            echo "LINES TO GO: ". $outputSize ."\n";
+            echo "LINES TO GO: ", $outputSize ,"\n";
             echo "\n";
             ob_flush();
             flush();
@@ -295,12 +287,10 @@ $line_by_line = false;
         endif;
     }
 
-    if (!isset($backtrace)) {
-        $backtrace = debug_backtrace();
-    }
+    $backtrace = debug_backtrace();
 
 	$dark = true;
-	
+
     if ($cli) :
 		echo "------------------------------\nBACKTRACE\n";
 		foreach ($backtrace as $call) {
@@ -657,4 +647,3 @@ function _cliGetUserInput() {
     // dont close stdin, otherwise the output to CLI stops
     // fclose(STDIN);
 }
-
