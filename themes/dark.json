@@ -1,0 +1,15 @@
+{
+  "name": "Dark",
+  "highlight" : {
+    "comment" : "#969896",
+    "default" : "#cc6666",
+    "html" : "#cc6666",
+    "keyword" : "#b294bb",
+    "string" : "#b5bd68"
+  },
+  "css": [
+    "body {background: #232525;}",
+    "* {font: 16px Arial; color: #A9B7C6;}",
+    ".backtrace, .backtrace td, .backtrace th {border-color: #ccc;}"
+  ]
+}
