@@ -250,7 +250,7 @@ if ( ! function_exists('dump')) {
 
             } elseif (is_object($var) && $var instanceof Exception) {
                 /* @var $var Exception */
-                $objectBacktrace = [];
+                $objectBacktrace = array();
                 $code            = $var->getCode();
                 $file            = $var->getFile();
                 $line            = $var->getLine();
@@ -324,7 +324,7 @@ if ( ! function_exists('dump')) {
             ?>
             <fieldset>
             <legend><var onclick="toggle('dump-output');">Variable</var></legend>
-            <div id="dump-output"><?= $output ?></div></fieldset><?php
+            <div id="dump-output"><?php echo $output ?></div></fieldset><?php
 
             if (is_object($var)) :
                 $methods = get_class_methods($var);
@@ -337,11 +337,11 @@ if ( ! function_exists('dump')) {
                 ?>
                 <fieldset>
                     <legend><var onclick="toggle('dump-methods');">Methods</var></legend>
-                    <div id="dump-methods" style="display:none;"><?= implode('<br>', $methods) ?></div>
+                    <div id="dump-methods" style="display:none;"><?php echo implode('<br>', $methods) ?></div>
                 </fieldset>
                 <fieldset>
                 <legend><var onclick="toggle('dump-properties');">Properties</var></legend>
-                <div id="dump-properties" style="display:none;"><?= implode('<br>', $properties) ?></div>
+                <div id="dump-properties" style="display:none;"><?php echo implode('<br>', $properties) ?></div>
                 </fieldset><?php
             endif;
         }
@@ -396,7 +396,7 @@ if ( ! function_exists('dump')) {
                 }
 
                 <?php if (isset($themeConfig['css'])) : ?>
-                <?= is_array($themeConfig['css']) ? implode(null, $themeConfig['css']) : $themeConfig['css'] ?>
+                <?php echo is_array($themeConfig['css']) ? implode(null, $themeConfig['css']) : $themeConfig['css'] ?>
                 <?php endif ?>
             </style>
             <br>
@@ -536,13 +536,13 @@ if (!class_exists('OutputBuffer')) {
 
             if ($this->verbose) {
                 $level     = ob_get_level();
-                $constants = [
+                $constants = array(
                     'PHP_OUTPUT_HANDLER_START',
                     'PHP_OUTPUT_HANDLER_WRITE',
                     'PHP_OUTPUT_HANDLER_FLUSH',
                     'PHP_OUTPUT_HANDLER_CLEAN',
                     'PHP_OUTPUT_HANDLER_FINAL'
-                ];
+                );
                 $flagsText = '';
                 foreach ($constants as $i => $constant) {
                     if ($flags & ($value = constant($constant)) || $value == $flags) {
@@ -689,7 +689,7 @@ if (!function_exists('dumpPrintBacktrace')) {
                 <td valign="top"
                     style="white-space: nowrap;"><?php echo(isset($call['class']) ? $call['class'] . $call['type'] : null), (isset($call['function']) ? $call['function'] : '_NO_FUNC_'); ?></td>
                 <td valign="top" width="70%"><var
-                            onclick="toggle('<?= $idPrefix, $i ?>');"><?php echo (isset($call['file']) ? $call['file'] : '_NO_FILE_') . ' (' . (isset($call['line']) ? $call['line'] : '_NO_LINE_') . ')'; ?></var>
+                            onclick="toggle('<?php echo $idPrefix, $i ?>');"><?php echo (isset($call['file']) ? $call['file'] : '_NO_FILE_') . ' (' . (isset($call['line']) ? $call['line'] : '_NO_LINE_') . ')'; ?></var>
                 </td>
                 <td valign="top" width="30%">
                     <?php /*if (isset($call['args'])) :
@@ -720,14 +720,14 @@ if (!function_exists('dumpPrintBacktrace')) {
                                     $args .= '...';
                                 } ?>
                                 <a href="" onclick="toggle('args<?php echo $i; ?>'); return false;">Show</a>
-                                <div id="args<?php echo $i; ?>" style="display:none;"><pre><?= $args; ?></pre></div>
+                                <div id="args<?php echo $i; ?>" style="display:none;"><pre><?php echo $args; ?></pre></div>
                             <?php endif*/ ?>
                 </td>
             </tr>
             <?php if (isset($call['code']) && $call['code']) : ?>
-                <tr id="<?= $idPrefix, $i ?>"<?= ($i ? ' style="display:none;"' : null) ?>>
+                <tr id="<?php echo $idPrefix, $i ?>"<?php echo ($i ? ' style="display:none;"' : null) ?>>
                     <td colspan="4">
-                        <?= $call['code'] ?>
+                        <?php echo $call['code'] ?>
                     </td>
                 </tr>
             <?php endif ?>
