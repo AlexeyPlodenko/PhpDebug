@@ -319,9 +319,8 @@ if ( ! function_exists('dump')) {
             unset($line);
 
         } else {
-            $output = ob_get_clean();
+            $output = ob_get_clean(); ?>
 
-            ?>
             <fieldset>
             <legend><var onclick="toggle('dump-output');">Variable</var></legend>
             <div id="dump-output"><?php echo $output ?></div></fieldset><?php
@@ -335,10 +334,13 @@ if ( ! function_exists('dump')) {
                 sort($properties);
 
                 ?>
+
+				<br>
                 <fieldset>
                     <legend><var onclick="toggle('dump-methods');">Methods</var></legend>
                     <div id="dump-methods" style="display:none;"><?php echo implode('<br>', $methods) ?></div>
                 </fieldset>
+				<br>
                 <fieldset>
                 <legend><var onclick="toggle('dump-properties');">Properties</var></legend>
                 <div id="dump-properties" style="display:none;"><?php echo implode('<br>', $properties) ?></div>
