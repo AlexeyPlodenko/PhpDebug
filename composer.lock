@@ -1,0 +1,53 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "97f05ab82d341eb5562de7ea86a90aa7",
+    "packages": [
+        {
+            "name": "qazd/text-diff",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qazd/text-diff.git",
+                "reference": "f07cd3907b67b4b044c13db4cb716aea56b007d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/qazd/text-diff/zipball/f07cd3907b67b4b044c13db4cb716aea56b007d4",
+                "reference": "f07cd3907b67b4b044c13db4cb716aea56b007d4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/TextDiff.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Dmitry",
+                    "email": "qazd.dev@gmail.com"
+                }
+            ],
+            "description": "A simple text differences visualization library",
+            "time": "2018-11-17T05:27:50+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.3"
+    },
+    "platform-dev": []
+}

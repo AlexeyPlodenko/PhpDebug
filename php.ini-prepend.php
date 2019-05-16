@@ -173,19 +173,24 @@ if ( ! function_exists('dumpAsIs')) {
 if ( ! function_exists('d')) {
     /**
      * @param mixed $var
+     * @param array $config
      */
-    function d($var = null)
+    function d($var = null, array $config = array())
     {
-        dump($var);
+        dump($var, $config);
     }
 }
 
+if (!defined('PHPDEBUG_TYPE_HTML')) {
+    define('PHPDEBUG_TYPE_HTML', 'html');
+}
 
 if ( ! function_exists('dump')) {
     /**
      * @param mixed $var
+     * @param array $config
      */
-    function dump($var = null)
+    function dump($var = null, array $config = array())
     {
         // runtime config.
         set_time_limit(360);
@@ -242,7 +247,10 @@ if ( ! function_exists('dump')) {
         <pre style="white-space: pre-wrap; line-height: 22px;"><?php
             endif;
 
-            if ($var === null) {
+            if (isset($config['type']) && $config['type'] === PHPDEBUG_TYPE_HTML) {
+                echo $var;
+
+            } elseif ($var === null) {
                 echo 'NULL';
 
             } elseif (is_bool($var)) {
@@ -467,6 +475,26 @@ if ( ! function_exists('dump')) {
         }
 
         exit;
+    }
+}
+
+if (!function_exists('diff')) {
+    function diff($a, $b)
+    {
+        if (!is_string($a)) {
+            throw new InvalidArgumentException('1st argument must be a string');
+        }
+        if (!is_string($b)) {
+            throw new InvalidArgumentException('2nd argument must be a string');
+        }
+
+        $cssNormalization = 'table.diff td, table.diff th {padding: 0; line-height: normal; font: inherit;}';
+
+        require 'vendor/autoload.php';
+        $res = Qazd\TextDiff::render($a, $b);
+        $css = file_get_contents(__DIR__ .'/vendor/qazd/text-diff/css/style.css');
+        $res = "<style>{$css}{$cssNormalization}</style>{$res}";
+        dump($res, ['type' => PHPDEBUG_TYPE_HTML]);
     }
 }
 

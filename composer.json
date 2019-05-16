@@ -1,0 +1,12 @@
+{
+  "name": "alexey-plodenko/php-debug",
+  "description": "A set of tools for PHP debugging",
+  "keywords": [
+    "debug"
+  ],
+  "type": "project",
+  "require": {
+    "php": ">=5.3",
+    "qazd/text-diff": "^0.1.1"
+  }
+}
