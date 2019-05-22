@@ -116,7 +116,17 @@ abstract class AbstractDebugFunctions
     /**
      * _dumpBacktrace
      */
-    abstract protected function _dumpBacktrace();
+    protected function _dumpBacktrace()
+    {
+        $backtrace = debug_backtrace();
+        $backtrace = array_slice($backtrace, 2);
+
+        $this->renderTpl('dump', 'css', array('themeConfig' => $this->themeConfig));
+        $this->renderTpl('dump', 'backtrace', array(
+            'objectBacktrace' => isset($objectBacktrace) ? $objectBacktrace : null,
+            'backtrace' => $backtrace
+        ));
+    }
 
     /**
      * _dumpFinalize
@@ -229,13 +239,14 @@ abstract class AbstractDebugFunctions
 
     /**
      * @param array|null $backtrace
+     * @param int $offsetTraces
      */
-    public function dumpStacktrace(array $backtrace = null)
+    public function dumpStacktrace(array $backtrace = null, $offsetTraces = 0)
     {
         if (!$backtrace) {
             $backtrace = debug_backtrace();
-            array_shift($backtrace);
         }
+        $backtrace = array_slice($backtrace, $offsetTraces);
 
         $this->clearOutput();
         $this->printBacktraceSimple($backtrace);

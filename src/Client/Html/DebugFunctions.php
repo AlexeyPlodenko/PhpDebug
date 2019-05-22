@@ -100,20 +100,6 @@ class DebugFunctions extends AbstractDebugFunctions
     }
 
     /**
-     * _dumpBacktrace
-     */
-    protected function _dumpBacktrace()
-    {
-        $backtrace = debug_backtrace();
-
-        $this->renderTpl('dump', 'css', array('themeConfig' => $this->themeConfig));
-        $this->renderTpl('dump', 'backtrace', array(
-            'objectBacktrace' => isset($objectBacktrace) ? $objectBacktrace : null,
-            'backtrace' => $backtrace
-        ));
-    }
-
-    /**
      * _dumpFinalize
      */
     protected function _dumpFinalize()

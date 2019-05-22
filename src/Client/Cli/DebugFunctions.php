@@ -131,21 +131,6 @@ class DebugFunctions extends AbstractDebugFunctions
     }
 
     /**
-     * _dumpBacktrace
-     */
-    protected function _dumpBacktrace()
-    {
-        $backtrace = debug_backtrace();
-
-        echo "------------------------------\nBACKTRACE\n";
-        foreach ($backtrace as $call) {
-            if (isset($call['file'])) {
-                echo $call['file'], ':', $call['line'], "\n";
-            }
-        }
-    }
-
-    /**
      * _dumpFinalize
      */
     protected function _dumpFinalize()

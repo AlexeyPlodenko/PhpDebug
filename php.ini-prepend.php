@@ -13,11 +13,24 @@ ob_start();
 // replaces current path and query. Uncomment to enable
 //$_SERVER['REQUEST_URI'] = '/en/article?id=123';
 
-// put anything into this super global var. to output after execution will finish. Assign something during the runtime to it
+// put anything into this super global variable in your code to output after execution will finish
+// Assign something during the runtime to it
 //$GLOBALS['phpDebugDump'] = array();
 
 if (!function_exists('http_build_url')) {
     require_once __DIR__ .'/src/http_build_url.php';
+}
+
+// switch env. to the one we want, for the variables above
+if (isset($host) && $host) {
+    $_SERVER['HTTP_HOST'] = $_SERVER['SERVER_NAME'] = $host;
+    if (isset($_SERVER['HTTP_REFERER'])) {
+        $referrer = parse_url($_SERVER['HTTP_REFERER']);
+        if (isset($referrer['host'])) {
+            $referrer['host'] = $host;
+            $_SERVER['HTTP_REFERER'] = http_build_url(null, $referrer);
+        }
+    }
 }
 
 if (!function_exists('dump')) {
@@ -54,18 +67,6 @@ if (!function_exists('dumpStacktrace')) {
      */
     function dumpStacktrace(array $backtrace = null)
     {
-        DebugFunctionsFactory::makeInstance()->dumpStacktrace($backtrace);
+        DebugFunctionsFactory::makeInstance()->dumpStacktrace($backtrace, 2);
     }
 }
-
-//// switch env. to the one we want
-//if (isset($host) && $host) {
-//    $_SERVER['HTTP_HOST'] = $_SERVER['SERVER_NAME'] = $host;
-//    if (isset($_SERVER['HTTP_REFERER'])) {
-//        $referrer = parse_url($_SERVER['HTTP_REFERER']);
-//        if (isset($referrer['host'])) {
-//            $referrer['host']        = $host;
-//            $_SERVER['HTTP_REFERER'] = http_build_url(null, $referrer);
-//        }
-//    }
-//}
