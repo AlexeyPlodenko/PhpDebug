@@ -9,7 +9,7 @@
   },
   "css": [
     "body {background: #232525;}",
-    "* {font: 16px Arial; color: #A9B7C6;}",
+    "* {font: 16px Arial; color: #a9b7c6;}",
     ".backtrace, .backtrace td, .backtrace th {border-color: #ccc;}"
   ]
 }

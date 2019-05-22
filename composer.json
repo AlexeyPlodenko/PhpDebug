@@ -1,12 +1,24 @@
 {
   "name": "alexey-plodenko/php-debug",
+  "version": "2.0.0b",
   "description": "A set of tools for PHP debugging",
   "keywords": [
     "debug"
   ],
   "type": "project",
   "require": {
+    "ext-json": "*",
+    "ext-readline": "*",
     "php": ">=5.3",
     "qazd/text-diff": "^0.1.1"
+  },
+  "authors": [
+    {
+      "name": "Alexey Plodenko",
+      "email": "alexey@plodenko.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {"AlexeyPlodenko\\PhpDebug\\": "src/"}
   }
 }

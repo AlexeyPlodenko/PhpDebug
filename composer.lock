@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "97f05ab82d341eb5562de7ea86a90aa7",
+    "content-hash": "b77bcef6f58f5ef2502b5ca48d636d06",
     "packages": [
         {
             "name": "qazd/text-diff",
@@ -47,6 +47,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "ext-json": "*",
+        "ext-readline": "*",
         "php": ">=5.3"
     },
     "platform-dev": []

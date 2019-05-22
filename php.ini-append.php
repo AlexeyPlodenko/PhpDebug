@@ -1,5 +1,7 @@
 <?php
 
-if (isset($GLOBALS['dumpAll']) && $GLOBALS['dumpAll']) {
-    dump($GLOBALS['dumpAll']);
+use AlexeyPlodenko\PhpDebug\DebugFunctionsFactory;
+
+if (isset($GLOBALS['phpDebugDump']) && $GLOBALS['phpDebugDump']) {
+    DebugFunctionsFactory::makeInstance()->dump($GLOBALS['phpDebugDump']);
 }
