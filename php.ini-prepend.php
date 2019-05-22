@@ -46,6 +46,18 @@ if (!function_exists('dump')) {
     }
 }
 
+if (!function_exists('dumpTable')) {
+    /**
+     * Output each element of the 1st argument in a column.
+     *
+     * @param mixed $var
+     */
+    function dumpTable(array $var)
+    {
+        DebugFunctionsFactory::makeInstance()->dumpTable($var);
+    }
+}
+
 if (!function_exists('dumpDiff')) {
     /**
      * Output...

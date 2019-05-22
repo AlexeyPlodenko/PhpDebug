@@ -37,6 +37,6 @@
     }
 
     <?php if (isset($themeConfig['css'])) : ?>
-    <?php echo is_array($themeConfig['css']) ? implode(null, $themeConfig['css']) : $themeConfig['css'] ?>
+        <?php echo is_array($themeConfig['css']) ? implode(null, $themeConfig['css']) : $themeConfig['css'] ?>
     <?php endif ?>
 </style>

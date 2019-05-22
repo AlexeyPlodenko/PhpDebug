@@ -36,6 +36,11 @@ abstract class AbstractDebugFunctions
     protected $themeConfig;
 
     /**
+     * @var array
+     */
+    protected $stacktrace;
+
+    /**
      * AbstractHelperFunctions constructor.
      */
     public function __construct()
@@ -83,6 +88,14 @@ abstract class AbstractDebugFunctions
     }
 
     /**
+     * @param array $trace
+     */
+    protected function setStackTrace(array $trace)
+    {
+        $this->stacktrace = $trace;
+    }
+
+    /**
      * @param Exception $var
      */
     protected function _dumpTypeObject($var)
@@ -91,6 +104,8 @@ abstract class AbstractDebugFunctions
         $file = $var->getFile();
         $line = $var->getLine();
         $message = $var->getMessage();
+
+        $this->setStackTrace($var->getTrace());
 
         $varClass = get_class($var);
 
@@ -118,8 +133,12 @@ abstract class AbstractDebugFunctions
      */
     protected function _dumpBacktrace()
     {
-        $backtrace = debug_backtrace();
-        $backtrace = array_slice($backtrace, 2);
+        if (isset($this->stacktrace)) {
+            $backtrace = $this->stacktrace;
+        } else {
+            $backtrace = debug_backtrace();
+            $backtrace = array_slice($backtrace, 2);
+        }
 
         $this->renderTpl('dump', 'css', array('themeConfig' => $this->themeConfig));
         $this->renderTpl('dump', 'backtrace', array(
@@ -279,12 +298,8 @@ abstract class AbstractDebugFunctions
     /**
      * @param mixed $var
      */
-    public function dumpTable($var)
+    public function dumpTable(array $var)
     {
-        if (!is_array($var)) {
-            trigger_error('1st argument must be an array.');
-        }
-
         $this->dump($var, array('type' => static::TYPE_TABLE));
     }
 
