@@ -1,6 +1,6 @@
 {
   "name": "alexey-plodenko/php-debug",
-  "version": "2.0.3b",
+  "version": "2.0.5b",
   "description": "A set of tools for PHP debugging",
   "keywords": [
     "debug"

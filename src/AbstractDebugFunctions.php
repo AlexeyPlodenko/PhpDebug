@@ -41,6 +41,11 @@ abstract class AbstractDebugFunctions
     protected $stacktrace;
 
     /**
+     * @var int
+     */
+    protected $stackTraceOffset;
+
+    /**
      * AbstractHelperFunctions constructor.
      */
     public function __construct()
@@ -138,6 +143,14 @@ abstract class AbstractDebugFunctions
     abstract protected function _dumpClose();
 
     /**
+     * @param int $offset
+     */
+    public function setStackTraceOffset($offset)
+    {
+        $this->stackTraceOffset = $offset;
+    }
+
+    /**
      * _dumpBacktrace
      */
     protected function _dumpBacktrace()
@@ -146,7 +159,7 @@ abstract class AbstractDebugFunctions
             $backtrace = $this->stacktrace;
         } else {
             $backtrace = debug_backtrace();
-            $backtrace = array_slice($backtrace, 2);
+            $backtrace = array_slice($backtrace, (int)$this->stackTraceOffset);
         }
 
         $this->renderTpl('dump', 'css', array('themeConfig' => $this->themeConfig));
@@ -271,14 +284,13 @@ abstract class AbstractDebugFunctions
 
     /**
      * @param array|null $backtrace
-     * @param int $offsetTraces
      */
-    public function dumpStacktrace(array $backtrace = null, $offsetTraces = 0)
+    public function dumpStacktrace(array $backtrace = null)
     {
         if (!$backtrace) {
             $backtrace = debug_backtrace();
         }
-        $backtrace = array_slice($backtrace, $offsetTraces);
+        $backtrace = array_slice($backtrace, (int)$this->stackTraceOffset);
 
         $this->clearOutput();
         $this->printBacktraceSimple($backtrace);

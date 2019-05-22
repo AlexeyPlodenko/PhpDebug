@@ -40,9 +40,11 @@ if (!function_exists('dump')) {
      * @param mixed $var
      * @param array $config
      */
-    function dump($var, array $config = array())
+    function dump($var = null, array $config = array())
     {
-        DebugFunctionsFactory::makeInstance()->dump($var, $config);
+        $debugFuncs = DebugFunctionsFactory::makeInstance();
+        $debugFuncs->setStackTraceOffset(2);
+        $debugFuncs->dump($var, $config);
     }
 }
 
@@ -54,7 +56,9 @@ if (!function_exists('dumpTable')) {
      */
     function dumpTable(array $var)
     {
-        DebugFunctionsFactory::makeInstance()->dumpTable($var);
+        $debugFuncs = DebugFunctionsFactory::makeInstance();
+        $debugFuncs->setStackTraceOffset(3);
+        $debugFuncs->dumpTable($var);
     }
 }
 
@@ -67,7 +71,9 @@ if (!function_exists('dumpDiff')) {
      */
     function dumpDiff($a, $b)
     {
-        DebugFunctionsFactory::makeInstance()->dumpDiff($a, $b);
+        $debugFuncs = DebugFunctionsFactory::makeInstance();
+        $debugFuncs->setStackTraceOffset(3);
+        $debugFuncs->dumpDiff($a, $b);
     }
 }
 
@@ -79,6 +85,8 @@ if (!function_exists('dumpStacktrace')) {
      */
     function dumpStacktrace(array $backtrace = null)
     {
-        DebugFunctionsFactory::makeInstance()->dumpStacktrace($backtrace, 2);
+        $debugFuncs = DebugFunctionsFactory::makeInstance();
+        $debugFuncs->setStackTraceOffset(2);
+        $debugFuncs->dumpStacktrace($backtrace);
     }
 }
