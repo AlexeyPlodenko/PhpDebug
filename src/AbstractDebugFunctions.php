@@ -104,10 +104,19 @@ abstract class AbstractDebugFunctions
         $file = $var->getFile();
         $line = $var->getLine();
         $message = $var->getMessage();
-
-        $this->setStackTrace($var->getTrace());
-
         $varClass = get_class($var);
+
+        $stackTrace = $var->getTrace();
+        // adding the place of exception to the stack trace, so its source code will be shown
+        array_unshift($stackTrace, array(
+            'class' => $varClass,
+            'type' => '->',
+            'function' => '__construct',
+            'file' => $file,
+            'line' => $line,
+            'code' => $code
+        ));
+        $this->setStackTrace($stackTrace);
 
         echo "Exception $varClass #$code with message \"$message\" in file \"$file\" on line $line";
         echo $this->verticalSpace;
@@ -203,9 +212,9 @@ abstract class AbstractDebugFunctions
         $this->_dumpClose();
         $this->_dumpOutputLineByLine();
         $this->_dumpVariable();
+        $this->_dumpBacktrace();
         $this->_dumpMethods($var);
         $this->_dumpProperties($var);
-        $this->_dumpBacktrace();
         $this->_dumpFinalize();
 
         exit;
@@ -220,6 +229,10 @@ abstract class AbstractDebugFunctions
     {
         $name = "$funcName.$fragmentName";
         $typeDir = ($this->isCli() ? 'cli' : 'html');
+
+        // passing current context to the template
+        $vars['self'] = $this;
+
         $context = function(array $vars, $path) {
             extract($vars);
             require $path;

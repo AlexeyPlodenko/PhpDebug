@@ -9,11 +9,11 @@
         <?php endif ?>
     </legend>
     <div id="dump-backtrace">
-        <?php static::printBacktrace($backtrace); ?>
+        <?php $self->printBacktrace($backtrace); ?>
     </div>
     <?php if (isset($objectBacktrace)) : ?>
         <div id="dump-object-backtrace" style="display: none;">
-            <?php static::printBacktrace($objectBacktrace); ?>
+            <?php $self->printBacktrace($objectBacktrace); ?>
         </div>
     <?php endif ?>
 </fieldset>
