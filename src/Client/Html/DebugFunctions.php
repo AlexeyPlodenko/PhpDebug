@@ -183,7 +183,7 @@ class DebugFunctions extends AbstractDebugFunctions
                     }
                 }
                 unset($line);
-                $code[$our_line] = '<b>>'. $code[$our_line] .'</b>';
+                $code[$our_line] = '<span style="font-weight: bold;">>'. $code[$our_line] .'</span>';
                 $call['code']    = implode('<br>', $code);
             }
         }
